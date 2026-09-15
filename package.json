@@ -1,0 +1,69 @@
+{
+  "name": "dsh-compose-panel",
+  "version": "0.1.1",
+  "description": "DeepSeek Harness plugin: Docker Compose projects, container control and live per-service logs in the native right sidebar.",
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "docker",
+    "docker-compose",
+    "sidebar"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yizhixiaokong/dsh-compose-panel.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yizhixiaokong/dsh-compose-panel/issues"
+  },
+  "homepage": "https://github.com/yizhixiaokong/dsh-compose-panel#readme",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "default": "./lib/client.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "scripts",
+    "cordis.patch.yml",
+    "README.md",
+    "README.zh.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.2"
+  },
+  "scripts": {
+    "test": "node scripts/smoke.mjs",
+    "prepublishOnly": "npm test"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-sidebar-right"
+      ],
+      "platform": "web"
+    },
+    "compatibility": {
+      "dsh": ">=0.1.5-rc.1",
+      "dshReleases": {
+        "0.1.5-rc.1": "compatible"
+      }
+    }
+  }
+}
