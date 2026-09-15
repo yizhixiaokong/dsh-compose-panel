@@ -2,14 +2,15 @@
 
 English | [中文](README.zh.md)
 
+[![DSH](https://img.shields.io/badge/DeepSeek-Harness-blue)](https://github.com/deepseek-ai/deepseek-harness)
 [![CI](https://github.com/yizhixiaokong/dsh-compose-panel/actions/workflows/ci.yml/badge.svg)](https://github.com/yizhixiaokong/dsh-compose-panel/actions/workflows/ci.yml)
 [![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![dsh-plugin](https://img.shields.io/badge/dsh--plugin-installable-2ea44f)](https://github.com/topics/dsh-plugin)
 
-A [DeepSeek Harness](https://github.com/deepseek-ai/dsh) plugin that puts your
-Docker Compose projects in the native **right sidebar**: one group per project
-directory, live status per container, start/stop/restart on hover, and a
-streaming log tab per service.
+A [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) plugin
+that puts your Docker Compose projects in the native **right sidebar**: one
+group per project directory, live status per container, start/stop/restart on
+hover, and a streaming log tab per service.
 
 It is built for the workspace layout that a single-file container viewer gets
 wrong: one repository whose subdirectories each own a `compose.yaml`.
