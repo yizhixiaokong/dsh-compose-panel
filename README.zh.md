@@ -264,8 +264,20 @@ npm test          # node scripts/smoke.mjs
      zh: '在右侧栏列出各 DSH 工作区中的 Docker Compose 项目，按项目目录分组，显示容器状态，支持项目级与服务级 up/stop/restart 以及单服务日志流。'
    ```
 
-市场详情页的截图条读取与 `package.json` 并列的 `screenshots.json`（1–8 张图）。本仓库
-没有声明，因此市场会退回到从本 README 中自动抽取图片。
+市场详情页的截图条读取与 `package.json` 并列的 `screenshots.json`（1–8 张图）；本仓库
+声明的是 `assets/01-projects.png`、`assets/02-actions.png`、`assets/03-logs.png`，按此
+顺序展示。
+
+### 发布到 npm
+
+```sh
+npm login --registry=https://registry.npmjs.org   # 镜像既不能登录，也不能发布
+npm publish --registry=https://registry.npmjs.org
+```
+
+`npm publish --dry-run` 只打印将要上传的内容而不上传；`prepublishOnly` 会先跑一遍
+`npm test`。已发布包的 `repository` 字段指回本仓库——列表据此把 npm 包与条目关联，
+随后展示的就是更短的 `dsh plugin --profile web add dsh-compose-panel`，而不是 GitHub 形式。
 
 ## 许可证
 
