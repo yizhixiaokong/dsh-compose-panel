@@ -51,7 +51,14 @@ Compose 项目放进**原生右侧栏**——每个项目目录一组、每个�
 
 ## 安装
 
-从克隆（迭代期推荐）：
+直接从 GitHub 安装——不必克隆（想固定版本就钉一个 tag）：
+
+```sh
+dsh plugin --profile web add "github:yizhixiaokong/dsh-compose-panel"
+# 钉版本：dsh plugin --profile web add "github:yizhixiaokong/dsh-compose-panel#v0.1.1"
+```
+
+从克隆安装（需要改代码时）：
 
 ```sh
 git clone https://github.com/yizhixiaokong/dsh-compose-panel.git
@@ -59,14 +66,19 @@ cd dsh-compose-panel
 dsh plugin --profile web add "$PWD"
 ```
 
-从 npm：
+从 npm 安装（发布之后）：
 
 ```sh
 dsh plugin --profile web add dsh-compose-panel
 ```
 
-两种方式都会把包装进 profile，它的 [`cordis.patch.yml`](cordis.patch.yml)
-贡献它所需要的那一行宿主配置。随后重启 Harness 以加载客户端产物：
+三种方式结果一致，也都不需要手工登记：`dsh plugin` 先跑 pnpm，再读取每个已安装依赖的
+`package.json`——声明了 `dsh.bundle` 的包，其名字会被追加进
+`dsh.profile.bundles`，由它挂载旁边的 [`cordis.patch.yml`](cordis.patch.yml)。
+（没有该声明的依赖只会作为普通库安装并给出警告。）同样没有构建步骤——客户端部分是随
+`lib/` 一起发布的手写产物。
+
+随后重启 Harness 以加载客户端产物：
 
 ```sh
 dsh web

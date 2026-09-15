@@ -59,7 +59,14 @@ wrong: one repository whose subdirectories each own a `compose.yaml`.
 
 ## Install
 
-From a clone (recommended while you are iterating):
+Straight from GitHub — nothing to clone (pin a tag if you want a fixed release):
+
+```sh
+dsh plugin --profile web add "github:yizhixiaokong/dsh-compose-panel"
+# pinned: dsh plugin --profile web add "github:yizhixiaokong/dsh-compose-panel#v0.1.1"
+```
+
+From a clone, when you want to edit the code:
 
 ```sh
 git clone https://github.com/yizhixiaokong/dsh-compose-panel.git
@@ -67,14 +74,21 @@ cd dsh-compose-panel
 dsh plugin --profile web add "$PWD"
 ```
 
-From npm:
+From npm, once it is published:
 
 ```sh
 dsh plugin --profile web add dsh-compose-panel
 ```
 
-Either way the package is linked into the profile, and its
-[`cordis.patch.yml`](cordis.patch.yml) contributes the one host row it needs.
+All three end the same way, and none of them needs a manual registration step:
+`dsh plugin` runs pnpm, then reads each installed dependency's
+`package.json`; a package that declares `dsh.bundle` has its name appended to
+`dsh.profile.bundles`, which is what mounts the
+[`cordis.patch.yml`](cordis.patch.yml) beside it. (A dependency without that
+declaration is installed as a plain library and warns instead.) There is no
+build step either — the client half is a hand-written bundle that ships in
+`lib/`.
+
 Then restart the harness so the client bundle is picked up:
 
 ```sh
