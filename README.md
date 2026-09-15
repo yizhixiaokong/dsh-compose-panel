@@ -296,8 +296,20 @@ repository owner:
    ```
 
 The storefront reads a `screenshots.json` next to `package.json` (1–8 images)
-for its screenshot strip. This repository declares none, so the storefront falls
-back to images found in this README.
+for its screenshot strip; this repository declares `assets/01-projects.png`,
+`assets/02-actions.png` and `assets/03-logs.png`, in that order.
+
+### Publishing to npm
+
+```sh
+npm login --registry=https://registry.npmjs.org   # a mirror accepts neither a login nor a publish
+npm publish --registry=https://registry.npmjs.org
+```
+
+`npm publish --dry-run` prints the tarball contents without uploading anything,
+and `prepublishOnly` runs `npm test` before either. The published package's
+`repository` field points back here; that is what lets the plugin list link the
+two and then offer the registry install form instead of the GitHub one.
 
 ## License
 
