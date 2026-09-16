@@ -22,6 +22,22 @@ wrong: one repository whose subdirectories each own a `compose.yaml`.
 └── tools/mail/compose.yaml    → group “tools/mail”   not started
 ```
 
+## Screenshots
+
+The panel in the right sidebar: one collapsible group per project directory, the
+aggregate container state on the right of each header.
+
+![The compose panel: a group per project directory, one row per container, status on the right](https://raw.githubusercontent.com/yizhixiaokong/dsh-compose-panel/HEAD/assets/01-projects.png)
+
+Hovering a row replaces its status cell with that row's actions — project-wide on
+a group header, per-service on a container row.
+
+![Action buttons replacing a row's status cell, with the result shown in a banner](https://raw.githubusercontent.com/yizhixiaokong/dsh-compose-panel/HEAD/assets/02-actions.png)
+
+Clicking a container row opens a streamed log tab for that service.
+
+![The log viewer for one service, with replay size, timestamps and wrapping controls](https://raw.githubusercontent.com/yizhixiaokong/dsh-compose-panel/HEAD/assets/03-logs.png)
+
 ## Features
 
 - **One group per project directory.** Projects are keyed by directory, never

@@ -21,6 +21,20 @@ Compose 项目放进**原生右侧栏**——每个项目目录一组、每个�
 └── tools/mail/compose.yaml    → 分组 “tools/mail”  未启动
 ```
 
+## 截图
+
+右侧栏里的面板：每个项目目录一个可折叠分组，容器状态汇总在标题右侧。
+
+![容器面板：每个项目目录一组，每个容器一行，状态右对齐](https://raw.githubusercontent.com/yizhixiaokong/dsh-compose-panel/HEAD/assets/01-projects.png)
+
+鼠标停在某行时，状态单元格会被该行适用的操作替代——分组标题上是项目级操作，容器行上是单服务操作。
+
+![悬停时操作按钮替代状态栏，结果由横幅提示](https://raw.githubusercontent.com/yizhixiaokong/dsh-compose-panel/HEAD/assets/02-actions.png)
+
+点击容器行即为该服务打开流式日志标签页。
+
+![单服务日志页，带回放行数、时间戳与换行控制](https://raw.githubusercontent.com/yizhixiaokong/dsh-compose-panel/HEAD/assets/03-logs.png)
+
 ## 功能
 
 - **每个项目目录一组。** 项目以目录为键，绝不用 compose 项目名，因此 `-p`、
