@@ -74,7 +74,7 @@ cd dsh-compose-panel
 dsh plugin --profile web add "$PWD"
 ```
 
-From npm, once it is published:
+From npm:
 
 ```sh
 dsh plugin --profile web add dsh-compose-panel
