@@ -70,7 +70,7 @@ Compose 项目放进**原生右侧栏**——每个项目目录一组、每个�
 | --- | --- | --- |
 | 0.1.7-rc.2 | **0.1.2 及以上** | 0.1.1 什么都不注册——「容器」标签直接不出现。 |
 | 0.1.7-rc.1 | **0.1.2 及以上** | 同一个竞态；0.1.2 已对照该版本的发布包核实，未端到端实测。 |
-| 0.1.5-rc.1 / 0.1.5-rc.2 | 0.1.1 与 0.1.2 均可 | 0.1.2 在这些版本上没有行为变化。 |
+| 0.1.5-rc.1 / 0.1.5-rc.2 | 0.1.1 与 0.1.2 均可 | 两者都可用。0.1.2 没有引入新 API——只加了一个 guide 字段和依赖声明——其激活门已在这条线钉定的 cordis 版本上实测通过。 |
 
 **为什么 0.1.1 在 0.1.7 上坏了。** 客户端半边只会在自己 `inject` 列表中的服务全部就绪后
 才被 apply。`sidebarRightTabs` 注册表由右栏自己的 apply 提供，而那个 apply 的依赖比本插
@@ -125,6 +125,23 @@ dsh plugin --profile web remove dsh-compose-panel
 
 > 客户端部分在宿主启动时完成基线化。在运行中的实例里修改 `lib/client.js`
 > 不会生效，直到 `dsh web` 重启——刷新浏览器不够。
+
+### 更新
+
+插件市场里的「更新」按钮执行的就是下面第一条，命令行等价形式：
+
+```sh
+# 从 npm 安装的
+dsh plugin --profile web add dsh-compose-panel@latest
+
+# 从 GitHub 安装的——钉住想要的 tag；去掉 #tag 则取默认分支最新
+dsh plugin --profile web add "github:yizhixiaokong/dsh-compose-panel#v0.1.2"
+
+# 从 checkout 安装的（link:）——checkout 就是安装源
+git -C <本仓库路径> pull
+```
+
+更新后要重启 `dsh web`：客户端半边在宿主启动时基线化，重启前新代码不生效。
 
 ## 使用
 

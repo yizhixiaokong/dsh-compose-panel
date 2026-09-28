@@ -80,7 +80,7 @@ Clicking a container row opens a streamed log tab for that service.
 | --- | --- | --- |
 | 0.1.7-rc.2 | **0.1.2 or newer** | 0.1.1 registers nothing — the 容器 tab is simply absent. |
 | 0.1.7-rc.1 | **0.1.2 or newer** | The same race; 0.1.2 confirmed against that release's published packages, not run end-to-end. |
-| 0.1.5-rc.1 / 0.1.5-rc.2 | 0.1.1 and 0.1.2 | 0.1.2 changes nothing there. |
+| 0.1.5-rc.1 / 0.1.5-rc.2 | 0.1.1 and 0.1.2 | Both work. 0.1.2 adds no new API — only a guide field and the dependency declaration — and its activation gate was verified to hold on the cordis release that line pins. |
 
 **Why 0.1.1 broke on 0.1.7.** A client half is applied only once every service
 in its own `inject` list is provided. The right sidebar provides the
@@ -142,6 +142,25 @@ dsh plugin --profile web remove dsh-compose-panel
 > The client half is baselined when the host boots. Editing
 > `lib/client.js` in a running harness changes nothing until `dsh web`
 > restarts — a browser refresh is not enough.
+
+### Updating
+
+The plugin market's **Update** button runs the first command below; the CLI
+form is the same thing:
+
+```sh
+# installed from npm
+dsh plugin --profile web add dsh-compose-panel@latest
+
+# installed from GitHub — pin the tag you want, or drop #tag for the branch head
+dsh plugin --profile web add "github:yizhixiaokong/dsh-compose-panel#v0.1.2"
+
+# installed from a checkout (link:) — the checkout IS the install source
+git -C <path to this checkout> pull
+```
+
+Then restart `dsh web`. The client half is baselined at host boot, so an update
+stays invisible until then.
 
 ## Usage
 
