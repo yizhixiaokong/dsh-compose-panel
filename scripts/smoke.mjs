@@ -278,6 +278,19 @@ check('a missing tab registry fails the plugin loudly instead of silently', () =
  * which a status-only check never sees. Park the escaped dashes before
  * splitting so `dsh--plugin` counts as one part.
  * ------------------------------------------------------------------ */
+check('the manifest declares the host requirement where the market reads it', () => {
+	const manifest = JSON.parse(read('package.json'))
+	// The plugin market derives its compatibility line from the published
+	// manifest — engines.dsh first, then any @deepseek-ai/dsh* peer. Dropping
+	// either silently reverts the market to "undeclared".
+	assert.equal(manifest.engines?.dsh, '>=0.1.5-rc.1', 'engines.dsh must state the host floor')
+	assert.equal(
+		manifest.peerDependencies?.['@deepseek-ai/dsh-client-ui-sidebar-right'],
+		'>=0.1.5-rc.1',
+		'the sidebar-right peer states the same floor through the package this half injects',
+	)
+})
+
 check('README badges are well-formed', () => {
 	for (const file of ['README.md', 'README.zh.md']) {
 		const urls = read(file).match(/https:\/\/img\.shields\.io\/badge\/[^)\s"']+/g) ?? []
