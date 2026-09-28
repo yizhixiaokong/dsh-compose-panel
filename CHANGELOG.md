@@ -19,6 +19,12 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   is recorded per plugin and rendered. The `inject` gate already guarantees the
   registry at apply time, so reaching this branch means it vanished mid-boot.
 
+- `engines.dsh` declares the host requirement (`>=0.1.5-rc.1`), which is the
+  field the plugin market reads to show what a plugin needs alongside its
+  compatibility verdict — top-level `engines.dsh` wins over `dsh.engines.dsh`
+  when both are present. The market reads the *published* manifest, so the
+  requirement appears in the market from the next npm release.
+
 ## [0.1.2] — 2026-09-23
 
 ### Fixed
