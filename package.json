@@ -1,6 +1,6 @@
 {
   "name": "dsh-compose-panel",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "DeepSeek Harness plugin: Docker Compose projects, container control and live per-service logs in the native right sidebar.",
   "keywords": [
     "dsh",
@@ -62,7 +62,9 @@
     "compatibility": {
       "dsh": ">=0.1.5-rc.1",
       "dshReleases": {
-        "0.1.5-rc.1": "compatible"
+        "0.1.5-rc.1": "compatible",
+        "0.1.5-rc.2": "compatible",
+        "0.1.7-rc.2": "compatible"
       }
     }
   }

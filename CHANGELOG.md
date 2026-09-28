@@ -9,6 +9,28 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 > sections below record what changed between them, so that the fixes are not
 > lost.
 
+## [0.1.2] — 2026-09-23
+
+### Fixed
+
+- **The panel reappears on DSH 0.1.7.** On 0.1.7-rc.2 the whole client half
+  registered nothing: no tab, no seat, no chip. The cause was activation order.
+  A client half is applied only once every service in its own `inject` list is
+  provided, and `sidebarRightTabs` is provided by `dsh-client-ui-sidebar-right`
+  from *its* apply — which is gated on seven services (`slots`, `layout`,
+  `locale`, `resources`, `sessions`, `uiSession`, `shortcuts`) and therefore
+  lands after ours. This plugin declared only `slots`, applied before the
+  registry existed, hit its own "registry is not reachable; nothing registered"
+  bail-out, and never retried. The half now declares `sidebarRightTabs` as a
+  hard dependency, so activation waits for it.
+- The guide capsule's entry now carries the `id` its type requires
+  (`SidebarRightGuideEntry.id` is non-optional). Plain JS hid the omission.
+
+### Added
+
+- Smoke checks pin both: the client half must gate activation on the tab
+  registry, and every guide entry must carry a stable `id` and an `order`.
+
 ## [0.1.1] — 2026-09-15
 
 ### Added

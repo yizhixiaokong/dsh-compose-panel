@@ -150,6 +150,7 @@ function loadClientEntry() {
 
 function clientStub() {
 	const tabs = []
+	const defs = []
 	const seats = []
 	const sheets = []
 	const disposers = []
@@ -171,6 +172,7 @@ function clientStub() {
 				return {
 					register(options) {
 						tabs.push(options.id)
+						defs.push(options)
 						return () => {}
 					},
 				}
@@ -187,7 +189,7 @@ function clientStub() {
 			return () => {}
 		},
 	}
-	return { ctx, tabs, seats, sheets, disposers }
+	return { ctx, tabs, defs, seats, sheets, disposers }
 }
 
 check('client bundle applies and fills its seats', () => {
@@ -198,7 +200,16 @@ check('client bundle applies and fills its seats', () => {
 		return reactStub()
 	})
 	assert.equal(plugin.name, 'dsh-compose-panel', 'unexpected plugin name: ' + String(plugin.name))
-	assert.deepEqual(plugin.inject, ['slots'], 'the client half must inject the slot registry')
+	// The runner activates a client half only once every name in its own
+	// `inject` list is provided, and `sidebarRightTabs` is provided by the right
+	// sidebar's apply — gated on seven services, so it lands after ours. On
+	// 0.1.7-rc.2 this half declared only `slots`, applied too early, found no
+	// registry and registered nothing at all (no tab, no seats).
+	assert.deepEqual(
+		plugin.inject,
+		['slots', 'sidebarRightTabs'],
+		'the client half must gate activation on the right sidebar tab registry',
+	)
 
 	const harness = clientStub()
 	const sheets = []
@@ -210,6 +221,16 @@ check('client bundle applies and fills its seats', () => {
 	}
 
 	assert.deepEqual(harness.tabs, EXPECTED_TABS, 'registered tab types changed')
+
+	// SidebarRightGuideEntry requires id and order; plain JS cannot lean on the
+	// type system to catch their absence, so pin them here.
+	for (const def of harness.defs) {
+		for (const entry of def.guide ?? []) {
+			assert.equal(typeof entry.id, 'string', 'guide entry of ' + def.id + ' must carry a stable id')
+			assert.ok(entry.id.length > 0, 'guide entry id must not be empty')
+			assert.equal(typeof entry.order, 'number', 'guide entry of ' + def.id + ' must carry an order')
+		}
+	}
 	assert.deepEqual(harness.seats, EXPECTED_SEATS, 'registered sidebar seats changed')
 	assert.equal(sheets.length, 1, 'expected exactly one injected stylesheet, got ' + sheets.length)
 	assert.ok(sheets[0].textContent.length > 500, 'the injected stylesheet looks empty')
