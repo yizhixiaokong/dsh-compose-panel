@@ -242,6 +242,33 @@ check('client bundle applies and fills its seats', () => {
 	assert.equal(sheets.length, 0, 'the stylesheet outlived the plugin fiber')
 })
 
+check('a missing tab registry fails the plugin loudly instead of silently', () => {
+	const entry = loadClientEntry()
+	const plugin = entry.factory((name) => {
+		assert.equal(name, 'react')
+		return reactStub()
+	})
+	const harness = clientStub()
+	// The inject gate normally guarantees the registry; if it is somehow absent
+	// at apply time the half must fail as an activation error (recorded per
+	// plugin and rendered) rather than return quietly — a quiet return looks
+	// exactly like an absent plugin and cost a full release to diagnose.
+	const bareCtx = { ...harness.ctx, get: (name) => (name === 'sidebarRightTabs' ? undefined : harness.ctx.get(name)) }
+	const sheets = []
+	globalThis.document = documentStub(sheets)
+	try {
+		assert.throws(
+			() => plugin.apply(bareCtx),
+			/sidebarRightTabs/,
+			'a half that cannot register must throw',
+		)
+	} finally {
+		delete globalThis.document
+	}
+	assert.deepEqual(harness.tabs, [], 'no tab type may be registered without the registry')
+	assert.deepEqual(harness.seats, [], 'no seat may be registered without the registry')
+})
+
 /* ------------------------------------------------------------------ *
  * 2b. README badges are well formed.
  *

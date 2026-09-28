@@ -9,6 +9,16 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 > sections below record what changed between them, so that the fixes are not
 > lost.
 
+## [Unreleased]
+
+### Changed
+
+- An unreachable tab registry is now an **activation failure**, not a quiet
+  `return`. A half that registers nothing looks exactly like a plugin that is
+  not installed — which is how the 0.1.7 regression hid — while a thrown error
+  is recorded per plugin and rendered. The `inject` gate already guarantees the
+  registry at apply time, so reaching this branch means it vanished mid-boot.
+
 ## [0.1.2] — 2026-09-23
 
 ### Fixed
