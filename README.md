@@ -101,7 +101,7 @@ Straight from GitHub — nothing to clone (pin a tag if you want a fixed release
 
 ```sh
 dsh plugin --profile web add "github:yizhixiaokong/dsh-compose-panel"
-# pinned: dsh plugin --profile web add "github:yizhixiaokong/dsh-compose-panel#v0.1.2"
+# pinned: dsh plugin --profile web add "github:yizhixiaokong/dsh-compose-panel#v0.1.3"
 ```
 
 From a clone, when you want to edit the code:
@@ -153,7 +153,7 @@ form is the same thing:
 dsh plugin --profile web add dsh-compose-panel@latest
 
 # installed from GitHub — pin the tag you want, or drop #tag for the branch head
-dsh plugin --profile web add "github:yizhixiaokong/dsh-compose-panel#v0.1.2"
+dsh plugin --profile web add "github:yizhixiaokong/dsh-compose-panel#v0.1.3"
 
 # installed from a checkout (link:) — the checkout IS the install source
 git -C <path to this checkout> pull

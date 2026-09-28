@@ -88,7 +88,7 @@ rc.1 上应当可用，但未在该版本端到端实测。
 
 ```sh
 dsh plugin --profile web add "github:yizhixiaokong/dsh-compose-panel"
-# 钉版本：dsh plugin --profile web add "github:yizhixiaokong/dsh-compose-panel#v0.1.2"
+# 钉版本：dsh plugin --profile web add "github:yizhixiaokong/dsh-compose-panel#v0.1.3"
 ```
 
 从克隆安装（需要改代码时）：
@@ -135,7 +135,7 @@ dsh plugin --profile web remove dsh-compose-panel
 dsh plugin --profile web add dsh-compose-panel@latest
 
 # 从 GitHub 安装的——钉住想要的 tag；去掉 #tag 则取默认分支最新
-dsh plugin --profile web add "github:yizhixiaokong/dsh-compose-panel#v0.1.2"
+dsh plugin --profile web add "github:yizhixiaokong/dsh-compose-panel#v0.1.3"
 
 # 从 checkout 安装的（link:）——checkout 就是安装源
 git -C <本仓库路径> pull

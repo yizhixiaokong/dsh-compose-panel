@@ -9,7 +9,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 > sections below record what changed between them, so that the fixes are not
 > lost.
 
-## [Unreleased]
+## [0.1.3] — 2026-09-28
 
 ### Changed
 
@@ -19,11 +19,12 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   is recorded per plugin and rendered. The `inject` gate already guarantees the
   registry at apply time, so reaching this branch means it vanished mid-boot.
 
-- `engines.dsh` declares the host requirement (`>=0.1.5-rc.1`), which is the
-  field the plugin market reads to show what a plugin needs alongside its
-  compatibility verdict — top-level `engines.dsh` wins over `dsh.engines.dsh`
-  when both are present. The market reads the *published* manifest, so the
-  requirement appears in the market from the next npm release.
+- The host requirement is now declared where the plugin market reads it:
+  `engines.dsh: ">=0.1.5-rc.1"` plus `@deepseek-ai/dsh*` peers for the packages
+  this half injects (`dsh-client-ui-sidebar-right`, which provides
+  `sidebarRightTabs`, and `dsh-host-webserver`, which serves the route). The
+  market's compatibility popover lists one line per declaration, so the entry
+  now shows the concrete requirement instead of "undeclared".
 
 ## [0.1.2] — 2026-09-23
 

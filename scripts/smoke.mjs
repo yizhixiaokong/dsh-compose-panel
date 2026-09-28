@@ -289,6 +289,11 @@ check('the manifest declares the host requirement where the market reads it', ()
 		'>=0.1.5-rc.1',
 		'the sidebar-right peer states the same floor through the package this half injects',
 	)
+	assert.equal(
+		manifest.peerDependencies?.['@deepseek-ai/dsh-host-webserver'],
+		'>=0.1.5-rc.1',
+		'the host-webserver peer states the same floor for the host half',
+	)
 })
 
 check('README badges are well-formed', () => {
