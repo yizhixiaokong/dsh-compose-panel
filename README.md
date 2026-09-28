@@ -68,10 +68,32 @@ Clicking a container row opens a streamed log tab for that service.
 
 | Requirement | Notes |
 | --- | --- |
+| **DSH >= 0.1.5-rc.1** | Verified on 0.1.5-rc.1, 0.1.5-rc.2 and 0.1.7-rc.2. A 0.1.7 install needs this plugin at **0.1.2** or newer — see [DSH versions](#dsh-versions). |
 | DSH with a web profile | The plugin registers a right-sidebar tab type and one HTTP route, both served by `webServer`. |
 | Docker CLI on `PATH` for the **host** process | `docker ps` and `docker compose ls` are run as child processes; the compose v2 plugin (`docker compose`, not `docker-compose`) is required. |
 | A POSIX host | Paths are handled as POSIX paths; Windows is untested. |
 | A DSH workspace | Only directories inside a registered workspace are listed. |
+
+### DSH versions
+
+| DSH | Plugin | Notes |
+| --- | --- | --- |
+| 0.1.7-rc.2 | **0.1.2 or newer** | 0.1.1 registers nothing — the 容器 tab is simply absent. |
+| 0.1.7-rc.1 | **0.1.2 or newer** | The same race; 0.1.2 confirmed against that release's published packages, not run end-to-end. |
+| 0.1.5-rc.1 / 0.1.5-rc.2 | 0.1.1 and 0.1.2 | 0.1.2 changes nothing there. |
+
+**Why 0.1.1 broke on 0.1.7.** A client half is applied only once every service
+in its own `inject` list is provided. The right sidebar provides the
+`sidebarRightTabs` registry from *its* apply, and that apply is gated on more
+services than this plugin's — 4 on 0.1.5-rc.2, 6 on 0.1.7-rc.1, 7 on
+0.1.7-rc.2 — so it lands after this one. 0.1.1 declared only `slots`, applied
+before the registry existed, found nothing and bailed. 0.1.2 declares
+`sidebarRightTabs` as a hard dependency and waits.
+
+**On 0.1.7-rc.1 specifically:** both 0.1.7 release candidates were inspected —
+that release's right sidebar provides `sidebarRightTabs` too, and the two pin
+the same cordis (`~4.0.4`), whose activation gate is the one at work. 0.1.2 is
+therefore expected to work on rc.1; it has not been run end-to-end there.
 
 ## Install
 
@@ -79,7 +101,7 @@ Straight from GitHub — nothing to clone (pin a tag if you want a fixed release
 
 ```sh
 dsh plugin --profile web add "github:yizhixiaokong/dsh-compose-panel"
-# pinned: dsh plugin --profile web add "github:yizhixiaokong/dsh-compose-panel#v0.1.1"
+# pinned: dsh plugin --profile web add "github:yizhixiaokong/dsh-compose-panel#v0.1.2"
 ```
 
 From a clone, when you want to edit the code:

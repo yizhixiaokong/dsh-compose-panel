@@ -58,10 +58,29 @@ Compose 项目放进**原生右侧栏**——每个项目目录一组、每个�
 
 | 要求 | 说明 |
 | --- | --- |
+| **DSH >= 0.1.5-rc.1** | 实测于 0.1.5-rc.1、0.1.5-rc.2、0.1.7-rc.2。0.1.7 系列需要本插件 **0.1.2** 及以上，见 [DSH 版本](#dsh-版本)。 |
 | 带 web profile 的 DSH | 插件注册一个右侧栏标签类型和一条 HTTP 路由，二者都由 `webServer` 提供。 |
 | **宿主进程** 的 `PATH` 中有 Docker CLI | `docker ps`、`docker compose ls` 以子进程方式执行；需要 compose v2 插件（`docker compose`，不是 `docker-compose`）。 |
 | POSIX 系统 | 路径按 POSIX 处理；Windows 未经验证。 |
 | 至少一个 DSH 工作区 | 只列出已注册工作区之内的目录。 |
+
+### DSH 版本
+
+| DSH | 插件版本 | 说明 |
+| --- | --- | --- |
+| 0.1.7-rc.2 | **0.1.2 及以上** | 0.1.1 什么都不注册——「容器」标签直接不出现。 |
+| 0.1.7-rc.1 | **0.1.2 及以上** | 同一个竞态；0.1.2 已对照该版本的发布包核实，未端到端实测。 |
+| 0.1.5-rc.1 / 0.1.5-rc.2 | 0.1.1 与 0.1.2 均可 | 0.1.2 在这些版本上没有行为变化。 |
+
+**为什么 0.1.1 在 0.1.7 上坏了。** 客户端半边只会在自己 `inject` 列表中的服务全部就绪后
+才被 apply。`sidebarRightTabs` 注册表由右栏自己的 apply 提供，而那个 apply 的依赖比本插
+件多——0.1.5-rc.2 是 4 个、0.1.7-rc.1 是 6 个、0.1.7-rc.2 是 7 个——所以它落在本插件之后。
+0.1.1 只声明了 `slots`，在注册表尚未存在时就 apply，取不到便直接退出。0.1.2 把
+`sidebarRightTabs` 声明为硬依赖，等它就绪。
+
+**关于 0.1.7-rc.1：** 已核对两个 0.1.7 候选版的发布包——该版本的右栏同样提供
+`sidebarRightTabs`，且两者钉定同一 cordis（`~4.0.4`），激活门正是由它实现。因此 0.1.2 在
+rc.1 上应当可用，但未在该版本端到端实测。
 
 ## 安装
 
@@ -69,7 +88,7 @@ Compose 项目放进**原生右侧栏**——每个项目目录一组、每个�
 
 ```sh
 dsh plugin --profile web add "github:yizhixiaokong/dsh-compose-panel"
-# 钉版本：dsh plugin --profile web add "github:yizhixiaokong/dsh-compose-panel#v0.1.1"
+# 钉版本：dsh plugin --profile web add "github:yizhixiaokong/dsh-compose-panel#v0.1.2"
 ```
 
 从克隆安装（需要改代码时）：
